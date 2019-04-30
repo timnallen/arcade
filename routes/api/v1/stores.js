@@ -1,12 +1,12 @@
 var express = require("express");
 var router = express.Router();
-var Game = require('../../../models').Game;
+var Store = require('../../../models').Store;
 
 router.get("/", function(req, res, next) {
-  Game.findAll()
-    .then(games => {
+  Store.findAll()
+    .then(stores => {
       res.setHeader("Content-Type", "application/json");
-      res.status(200).send(JSON.stringify(games));
+      res.status(200).send(JSON.stringify(stores));
     })
     .catch(error => {
       res.setHeader("Content-Type", "application/json");
@@ -15,14 +15,14 @@ router.get("/", function(req, res, next) {
 });
 
 router.get("/:id", function (req, res, next) {
-  Game.findAll({
+  Store.findAll({
     where: {
       id: req.params.id
     }
   })
-    .then(game => {
+    .then(store => {
       res.setHeader("Content-Type", "application/json");
-      res.status(200).send(JSON.stringify(game));
+      res.status(200).send(JSON.stringify(store));
     })
     .catch(error => {
       res.setHeader("Content-Type", "application/json");
@@ -31,16 +31,13 @@ router.get("/:id", function (req, res, next) {
 });
 
 router.post("/", function(req, res, next) {
-  Game.create({
-          title: req.body.title,
-          price: req.body.price,
-          releaseYear: req.body.releaseYear,
-          active: req.body.active,
-          StoreId: req.body.StoreId
+  Store.create({
+          name: req.body.name,
+          phoneNumber: req.body.phoneNumber
     })
-    .then(game => {
+    .then(store => {
       res.setHeader("Content-Type", "application/json");
-      res.status(201).send(JSON.stringify(game));
+      res.status(201).send(JSON.stringify(store));
     })
     .catch(error => {
       res.setHeader("Content-Type", "application/json");
@@ -49,13 +46,10 @@ router.post("/", function(req, res, next) {
 });
 
 router.put("/:id", function (req, res, next) {
-  Game.update(
+  Store.update(
     {
-      title: req.body.title,
-      price: req.body.price,
-      releaseYear: req.body.releaseYear,
-      active: req.body.active,
-      StoreId: req.body.StoreId
+      name: req.body.name,
+      phoneNumber: req.body.phoneNumber
     },
     {
       returning: true,
@@ -66,7 +60,7 @@ router.put("/:id", function (req, res, next) {
   )
     .then(([rowsUpdate, [updatedGame]]) => {
       res.setHeader("Content-Type", "application/json");
-      res.status(200).send(JSON.stringify(game));
+      res.status(200).send(JSON.stringify(store));
     })
     .catch(error => {
       res.setHeader("Content-Type", "application/json");
@@ -75,14 +69,14 @@ router.put("/:id", function (req, res, next) {
 });
 
 router.delete("/:id", function (req, res, next) {
-  Game.destroy({
+  Store.destroy({
     where: {
       id: req.params.id
     }
   })
-    .then(game => {
+    .then(store => {
       res.setHeader("Content-Type", "application/json");
-      res.status(204).send(JSON.stringify(game));
+      res.status(204).send(JSON.stringify(store));
     })
     .catch(error => {
       res.setHeader("Content-Type", "application/json");
